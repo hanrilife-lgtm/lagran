@@ -1,0 +1,431 @@
+:root {
+  --navy: #1a237e;
+  --green: #2e7d32;
+  --formula-bg: #f5f5f5;
+  --border: #d0d4e8;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+  background: #ffffff;
+  color: #1c1c1c;
+  line-height: 1.55;
+}
+
+header {
+  background: var(--navy);
+  color: #fff;
+  padding: 28px 20px 24px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+header h1 {
+  margin: 0;
+  font-size: clamp(22px, 4vw, 32px);
+  font-weight: 700;
+}
+
+header p {
+  margin: 0;
+  font-size: clamp(14px, 2.5vw, 17px);
+  color: #c5cae9;
+}
+
+.auth-area {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.auth-area .user-email {
+  color: #ffcc80;
+  font-weight: 500;
+}
+
+.auth-area button {
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border: 2px solid #fff;
+  border-radius: 6px;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+}
+
+.auth-area button:hover {
+  background: rgba(255,255,255,0.15);
+}
+
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  background: #eceff8;
+  padding: 14px 12px;
+  border-bottom: 2px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+
+nav button {
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 10px 22px;
+  border: 2px solid var(--navy);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--navy);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+nav button:hover { background: #dfe3f5; }
+nav button.active { background: var(--navy); color: #fff; }
+
+main {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 28px 18px 60px;
+}
+
+section.tab { display: none; animation: fadeIn 0.25s ease; }
+section.tab.active { display: block; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+h2 {
+  color: var(--navy);
+  font-size: clamp(20px, 3.5vw, 26px);
+  border-bottom: 3px solid var(--green);
+  padding-bottom: 8px;
+  margin-top: 0;
+}
+
+h3 { color: var(--navy); font-size: clamp(17px, 3vw, 19px); margin-top: 30px; }
+p { font-size: 16px; color: #2a2a2a; }
+ul { padding-left: 22px; }
+li { margin-bottom: 6px; }
+
+.formula-box {
+  background: var(--formula-bg);
+  border-left: 5px solid var(--green);
+  border-radius: 6px;
+  padding: 14px 18px;
+  margin: 14px 0;
+  overflow-x: auto;
+  font-size: 17px;
+}
+
+.formula-box .label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--green);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 6px;
+}
+
+.calc-box {
+  background: #fff;
+  border: 2px solid var(--navy);
+  border-radius: 10px;
+  padding: 20px;
+  margin: 24px 0;
+}
+
+.calc-box h4 {
+  margin: 0 0 14px;
+  color: var(--navy);
+  font-size: 17px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.calc-box h4::before { content: "⚙"; color: var(--green); }
+
+.field-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.field {
+  flex: 1 1 140px;
+  min-width: 120px;
+}
+
+.field label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.field input {
+  width: 100%;
+  padding: 9px 10px;
+  border: 1.5px solid #aab1d6;
+  border-radius: 6px;
+  font-size: 15px;
+  font-family: inherit;
+  background: #fafbff;
+}
+
+.field input:focus {
+  outline: none;
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.15);
+}
+
+.calc-box button, .btn-primary {
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  background: var(--green);
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.calc-box button:hover, .btn-primary:hover { background: #245d27; }
+
+.btn-secondary {
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 16px;
+  border: 2px solid var(--navy);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--navy);
+  cursor: pointer;
+}
+
+.btn-secondary:hover { background: #eceff8; }
+
+.result {
+  margin-top: 14px;
+  padding: 12px 16px;
+  background: var(--formula-bg);
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--navy);
+  min-height: 24px;
+}
+
+.result.empty { color: #888; font-weight: 400; font-style: italic; }
+.unit { color: var(--green); }
+
+.note { font-size: 13.5px; color: #666; margin-top: 8px; }
+
+footer {
+  text-align: center;
+  background: var(--navy);
+  color: #c5cae9;
+  padding: 18px 12px;
+  font-size: 14px;
+}
+
+/* Чат */
+.ai-intro-list {
+  background: var(--formula-bg);
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin: 16px 0;
+}
+
+.ai-intro-list li { margin-bottom: 4px; }
+
+.chat-box {
+  border: 2px solid var(--navy);
+  border-radius: 10px;
+  padding: 16px;
+  margin-top: 18px;
+}
+
+.chat-messages {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 440px;
+  overflow-y: auto;
+  background: #fafbff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px;
+  margin-bottom: 14px;
+}
+
+.msg {
+  max-width: 85%;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 15px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
+
+.msg.assistant {
+  align-self: flex-start;
+  background: #eceff8;
+  border: 1px solid var(--border);
+}
+
+.msg.user {
+  align-self: flex-end;
+  background: #e3f2e4;
+  border: 1px solid var(--green);
+}
+
+.msg.loading { font-style: italic; color: #777; }
+
+.chat-input-row {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.chat-input-row textarea {
+  flex: 1 1 200px;
+  min-height: 48px;
+  max-height: 140px;
+  padding: 10px 12px;
+  border: 1.5px solid #aab1d6;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 15px;
+  background: #fafbff;
+  resize: vertical;
+}
+
+.chat-input-row textarea:focus {
+  outline: none;
+  border-color: var(--green);
+  box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.15);
+}
+
+.chat-buttons {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.image-preview {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fafbff;
+  border: 1.5px dashed var(--green);
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-bottom: 12px;
+}
+
+.image-preview img { max-height: 70px; border-radius: 6px; border: 1px solid var(--border); }
+
+.remove-image-btn {
+  margin-left: auto;
+  border: 1.5px solid var(--navy);
+  background: #fff;
+  color: var(--navy);
+  border-radius: 50%;
+  width: 26px;
+  height: 26px;
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 1;
+}
+
+/* Модальное окно */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5);
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+.modal.active { display: flex; }
+
+.modal-content {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+}
+
+.modal-content h3 { margin: 0 0 16px; color: var(--navy); }
+
+.modal-content input {
+  width: 100%;
+  padding: 9px;
+  margin-bottom: 12px;
+  border: 1.5px solid #aab1d6;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 15px;
+}
+
+.modal-content .btn-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* Админка */
+.admin-panel {
+  background: #fafbff;
+  border: 2px solid var(--navy);
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 24px;
+}
+
+.admin-panel h3 { margin-top: 0; }
+
+.user-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #ddd;
+}
+
+@media (max-width: 480px) {
+  nav { gap: 6px; padding: 10px 8px; }
+  nav button { padding: 9px 14px; font-size: 13.5px; }
+  .calc-box { padding: 16px 14px; }
+}
