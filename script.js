@@ -1,12 +1,11 @@
 // ================= КОНФИГ FIREBASE =================
-// ЗАМЕНИ на данные из консоли Firebase
 const firebaseConfig = {
-  apiKey: "AIza...",
-  authDomain: "your-project.firebaseapp.com",
-  projectId: "your-project-id",
-  storageBucket: "your-project.appspot.com",
-  messagingSenderId: "123456789",
-  appId: "1:123456789:web:abc123"
+  apiKey: "AIzaSyAM72wVXgTniOAmrT-_YGQx-XGgq-w0unI",
+  authDomain: "lorgan-c6f41.firebaseapp.com",
+  projectId: "lorgan-c6f41",
+  storageBucket: "lorgan-c6f41.firebasestorage.app",
+  messagingSenderId: "735289808895",
+  appId: "1:735289808895:web:4ec39e3c9291987a0139ca"
 };
 
 firebase.initializeApp(firebaseConfig);
