@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lagran — термех с ИИ-репетитором</title>
+
+  <!-- MathJax -->
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
+
+  <!-- Firebase v9 compat -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <h1>Lagran</h1>
+  <p>Термех — конспект и ИИ-репетитор</p>
+  <div class="auth-area" id="authArea"></div>
+</header>
+
+<nav>
+  <button class="tab-btn active" data-tab="statics">Статика</button>
+  <button class="tab-btn" data-tab="kinematics">Кинематика</button>
+  <button class="tab-btn" data-tab="dynamics">Динамика</button>
+  <button class="tab-btn" data-tab="ai-tutor">ИИ-репетитор</button>
+  <button class="tab-btn" id="adminTabBtn" style="display:none;" data-tab="admin-panel">Админка</button>
+</nav>
+
+<main>
+  <!-- Статика -->
+  <section class="tab active" id="statics">
+    <h2>Статика</h2>
+    <p>Статика изучает условия равновесия тел под действием сил, без учёта их движения.</p>
+    <h3>Основные понятия</h3>
+    <ul>
+      <li><strong>Сила</strong> — векторная величина, мера механического воздействия одного тела на другое. Измеряется в ньютонах (Н).</li>
+      <li><strong>Момент силы</strong> относительно точки — векторная величина, равная произведению силы на плечо (расстояние от точки до линии действия силы).</li>
+      <li><strong>Пара сил</strong> — система двух равных по модулю, противоположно направленных и не лежащих на одной прямой сил. Создаёт момент, не создавая результирующей силы.</li>
+    </ul>
+    <div class="formula-box"><span class="label">Момент силы</span> $$M = F \cdot d$$ <p style="margin:6px 0 0; font-size:14px; color:#444;">где $F$ — сила (Н), $d$ — плечо силы (м), $M$ — момент (Н·м)</p></div>
+    <h3>Условия равновесия</h3>
+    <p>Твёрдое тело находится в равновесии, если выполняются два условия:</p>
+    <div class="formula-box"><span class="label">Сумма сил равна нулю</span> $$\sum \vec{F_i} = 0$$</div>
+    <div class="formula-box"><span class="label">Сумма моментов равна нулю</span> $$\sum M_i = 0$$</div>
+    <h3>Сложение двух сил (теорема косинусов)</h3>
+    <p>Если две силы $F_1$ и $F_2$ приложены в одной точке под углом $\alpha$ друг к другу, их равнодействующая находится по формуле:</p>
+    <div class="formula-box"><span class="label">Равнодействующая сила</span> $$F = \sqrt{F_1^2 + F_2^2 + 2F_1F_2\cos\alpha}$$</div>
+    <div class="calc-box">
+      <h4>Калькулятор равнодействующей силы</h4>
+      <div class="field-row">
+        <div class="field"><label for="f1">Сила F₁ (Н)</label><input type="number" id="f1" placeholder="например 50"></div>
+        <div class="field"><label for="f2">Сила F₂ (Н)</label><input type="number" id="f2" placeholder="например 30"></div>
+        <div class="field"><label for="angle">Угол между силами (°)</label><input type="number" id="angle" placeholder="например 60"></div>
+      </div>
+      <button onclick="calcStatics()">Вычислить</button>
+      <div class="result empty" id="staticsResult">Результат появится здесь</div>
+      <p class="note">Угол отсчитывается между направлениями векторов F₁ и F₂ (от 0° до 180°).</p>
+    </div>
+  </section>
+
+  <!-- Кинематика -->
+  <section class="tab" id="kinematics">
+    <h2>Кинематика</h2>
+    <p>Кинематика изучает движение тел без рассмотрения причин, его вызывающих — то есть описывает «как» тело движется.</p>
+    <h3>Равномерное движение</h3>
+    <p>Движение с постоянной скоростью, ускорение равно нулю.</p>
+    <div class="formula-box"><span class="label">Путь при равномерном движении</span> $$s = v \cdot t$$</div>
+    <h3>Равноускоренное движение</h3>
+    <p>Движение с постоянным ускорением $a$. Основные уравнения:</p>
+    <div class="formula-box"><span class="label">Конечная скорость</span> $$v = v_0 + a \cdot t$$</div>
+    <div class="formula-box"><span class="label">Пройденный путь</span> $$s = v_0 \cdot t + \dfrac{a \cdot t^2}{2}$$</div>
+    <div class="calc-box">
+      <h4>Калькулятор равноускоренного движения</h4>
+      <div class="field-row">
+        <div class="field"><label for="v0">Начальная скорость v₀ (м/с)</label><input type="number" id="v0" placeholder="например 0"></div>
+        <div class="field"><label for="a">Ускорение a (м/с²)</label><input type="number" id="a" placeholder="например 2"></div>
+        <div class="field"><label for="t">Время t (с)</label><input type="number" id="t" placeholder="например 5"></div>
+      </div>
+      <button onclick="calcKinematics()">Вычислить</button>
+      <div class="result empty" id="kinematicsResult">Результат появится здесь</div>
+    </div>
+  </section>
+
+  <!-- Динамика -->
+  <section class="tab" id="dynamics">
+    <h2>Динамика</h2>
+    <p>Динамика изучает движение тел в связи с причинами, его вызывающими — то есть силами, действующими на тело.</p>
+    <h3>Второй закон Ньютона</h3>
+    <div class="formula-box"><span class="label">Основное уравнение динамики</span> $$\vec{F} = m \cdot \vec{a}$$</div>
+    <h3>Кинетическая энергия и работа</h3>
+    <div class="formula-box"><span class="label">Кинетическая энергия</span> $$E_k = \dfrac{m v^2}{2}$$</div>
+    <div class="formula-box"><span class="label">Работа силы</span> $$A = F \cdot s \cdot \cos\alpha$$</div>
+    <div class="calc-box">
+      <h4>Калькулятор силы (F = m·a)</h4>
+      <div class="field-row">
+        <div class="field"><label for="massForce">Масса m (кг)</label><input type="number" id="massForce" placeholder="например 10"></div>
+        <div class="field"><label for="accelForce">Ускорение a (м/с²)</label><input type="number" id="accelForce" placeholder="например 3"></div>
+      </div>
+      <button onclick="calcForce()">Вычислить</button>
+      <div class="result empty" id="forceResult">Результат появится здесь</div>
+    </div>
+    <div class="calc-box">
+      <h4>Калькулятор кинетической энергии (Eₖ = m·v² / 2)</h4>
+      <div class="field-row">
+        <div class="field"><label for="massEnergy">Масса m (кг)</label><input type="number" id="massEnergy" placeholder="например 10"></div>
+        <div class="field"><label for="velEnergy">Скорость v (м/с)</label><input type="number" id="velEnergy" placeholder="например 4"></div>
+      </div>
+      <button onclick="calcEnergy()">Вычислить</button>
+      <div class="result empty" id="energyResult">Результат появится здесь</div>
+    </div>
+  </section>
+
+  <!-- ИИ-репетитор -->
+  <section class="tab" id="ai-tutor">
+    <h2>ИИ-репетитор</h2>
+    <p>Опиши задачу — ИИ поможет разобраться, не давая готовых ответов.</p>
+    <div class="chat-box">
+      <div class="chat-messages" id="chatMessages"></div>
+      <div class="image-preview" id="imagePreview" style="display:none;">
+        <img id="imagePreviewThumb" alt="Превью фото">
+        <button class="remove-image-btn" onclick="removePendingImage()" title="Убрать фото">✕</button>
+      </div>
+      <div class="chat-input-row">
+        <textarea id="chatInput" placeholder="Опиши задачу..."></textarea>
+        <div class="chat-buttons">
+          <input type="file" id="chatImageInput" accept="image/*" style="display:none;" onchange="handleImageSelect(event)">
+          <button class="btn-secondary" onclick="document.getElementById('chatImageInput').click()" title="Прикрепить фото">📷 Фото</button>
+          <button onclick="sendChatMessage()">Отправить</button>
+          <button class="btn-secondary" onclick="clearChat()">Очистить</button>
+        </div>
+      </div>
+      <p class="note">ИИ может ошибаться. Проверяй по формулам выше.</p>
+    </div>
+  </section>
+
+  <!-- Админ-панель -->
+  <section class="tab" id="admin-panel">
+    <h2>Админка</h2>
+    <div class="admin-panel" id="adminContent"><p>Загрузка...</p></div>
+  </section>
+</main>
+
+<footer>Создано для изучения термеха, 2026</footer>
+
+<!-- Модальное окно входа -->
+<div class="modal" id="authModal">
+  <div class="modal-content">
+    <h3 id="authModalTitle">Войти</h3>
+    <input type="email" id="authEmail" placeholder="Email">
+    <input type="password" id="authPassword" placeholder="Пароль">
+    <div class="btn-row">
+      <button class="btn-primary" id="authActionBtn">Войти</button>
+      <button class="btn-secondary" id="toggleAuthMode">Регистрация</button>
+    </div>
+    <p class="note" id="authError" style="color:red;"></p>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
